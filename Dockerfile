@@ -25,6 +25,13 @@ RUN mkdir -p $ANDROID_HOME
 RUN chmod -R 777 $ANDROID_HOME
 
 # Install Android Commandline-Tools
+WORKDIR $ANDROID_HOME
+RUN wget -q https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip -O commandlinetools-linux.zip
+RUN unzip commandlinetools-linux.zip
+RUN mv cmdline-tools tools
+RUN mkdir cmdline-tools
+RUN mv tools cmdline-tools/tools
+RUN rm commandlinetools-linux.zip
 RUN /opt/tools/cmdline_tools.sh
 
 RUN yes | sdkmanager --licenses
