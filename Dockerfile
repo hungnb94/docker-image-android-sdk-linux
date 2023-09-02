@@ -18,9 +18,6 @@ ENV PATH "${PATH}:${ANDROID_HOME}/bin"
 RUN apt-get update \
  && apt-get install -y openjdk-${JDK_VERSION}-jdk wget unzip
 
-COPY tools /opt/tools
-RUN chmod +x /opt/tools/*.sh
-
 RUN mkdir -p $ANDROID_HOME
 RUN chmod -R 777 $ANDROID_HOME
 
@@ -32,8 +29,10 @@ RUN mv cmdline-tools tools
 RUN mkdir cmdline-tools
 RUN mv tools cmdline-tools/tools
 RUN rm commandlinetools-linux.zip
-RUN /opt/tools/cmdline_tools.sh
 
+RUN export ANDROID_HOME=/opt/android-sdk
+RUN export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
+RUN export PATH="$PATH:$ANDROID_HOME/cmdline-tools/tools/bin"
 RUN yes | sdkmanager --licenses
 
 # RUN sdkmanager "cmdline-tools;latest"
